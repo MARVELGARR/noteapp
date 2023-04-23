@@ -17,7 +17,7 @@ function NoteApp() {
 
             <Header/>
           </div>
-          <div className="flex justify-center items-center w-11/12 pt-5 pb-5 rounded-xl h-10/12 bg-blue-300 mt-10 ">
+          <div className="flex justify-start items-center w-full p-5 rounded-xl h-full bg-blue-300 mt-10 ">
 
             <NoteList/>
           </div>

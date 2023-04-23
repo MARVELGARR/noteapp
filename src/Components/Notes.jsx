@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef} from 'react'
 import { useContext } from 'react';
 import { NoteContext } from './noteContext';
-
+import { v4 as uuid } from "uuid";
 
 function Notes() {
 
@@ -14,7 +14,7 @@ function Notes() {
     const {handleUpload} = useContext(NoteContext);
     const {onFocus} = useContext(NoteContext);
     const {selectedOption, setSelectedOption} =useContext(NoteContext);
-    const [tagInput, setTagInput] = useState();
+    const [tagInput, setTagInput] = useState("");
     
     const colorToBgColor = {
         0: 'bg-yellow-400 text-white placeholder:text-white',
@@ -46,7 +46,6 @@ function Notes() {
             return tag.trim();
         });
         setTags([...tags, ...newTags]);
-        console.log(tags)
         setTagInput('');
     };
     const tagInputChange = (e) => {
@@ -89,7 +88,7 @@ function Notes() {
                             onChange={tagInputChange}
                             
                         />
-                        <div className={`text-sm ${colorToBgColor[color]} w-32 h-6 border-2 text-slate-400 rounded-lg pl-2 focus:outline-none font-serif font-semibold bg-white shadow-sm`}>{tags}</div>
+                        <div className={`text-sm ${colorToBgColor[color]} w-32 flex h-7 border-2 text-slate-400 rounded-lg pl-2 focus:outline-none font-serif font-semibold bg-white shadow-sm`}>{tags.map((item)=>{return (<div key={uuid()} className='inline-block mt-1 mr-2 mb-2'><span className=' bg-gradient-to-r from-blue-500/50 to-teal-500/50 p-1 rounded-lg'>{item}</span></div> )})}</div>
                         <button onClick={handleAddTag} className='flex justify-end w-full h-3 font-extrabold -mt-2' type="button">+</button>
                     </div>
                 </div>
@@ -117,7 +116,6 @@ function Notes() {
             ></textarea>
             <div className="flex items-center justify-between ">
                 <span className="text-xs text-gray-500">Last saved 2 hours ago</span>
-                <span className="text-xs text-gray-500">3 tags</span>
                 <div className="flex items-center cursor-pointer transform hover:scale-110 transition-all duration-300" onClick={() => handleStar()}>
                     <svg
                         className={`w-6 h-6 mr-1 text-yellow-400 `}
