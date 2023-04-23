@@ -1,19 +1,33 @@
 import React, { useState } from 'react'
+import { useContext } from 'react';
+import { NoteContext } from './noteContext';
+
 
 function Header() {
-
+    const {color, setColor} = useContext(NoteContext);
     const [isDark, setIsDark] = useState(0);
 
     const handleClick = () => {
         setIsDark(!isDark);
     }
+    const handleColorChange = (index) =>{
+        setColor(index);
+    }
 
   return (
     <div>
         <div className="font-poppins relative">
-            <div className=" flex justify-between p-3">
+            <div className=" flex justify-between h-20 rounded-xl bg-slate-700/50 p-3">
                 <div className=" ">
                     MY<span className="bg-teal-900 pl-1 pr-1 rounded text-slate-400">NOTE</span>
+                </div>
+                <div className="">
+                    <ul className="flex gap-3">
+                        <li onClick={()=>handleColorChange(0)} className=' cursor-pointer w-6 h-6 outline-dashed outline-yellow-400 bg-yellow-400 rounded-full'></li>
+                        <li onClick={()=>handleColorChange(1)} className=' cursor-pointer w-6 h-6 outline-dashed outline-green-400 bg-green-400 rounded-full'></li>
+                        <li onClick={()=>handleColorChange(2)} className=' cursor-pointer w-6 h-6 outline-dashed outline-blue-400 bg-blue-400 rounded-full'></li>
+                        <li onClick={()=>handleColorChange(3)} className=' cursor-pointer w-6 h-6 outline-dashed outline-white-400 bg-white rounded-full'></li>
+                    </ul>
                 </div>
                 <div className="pr-8">
                     <div onClick={()=>handleClick(0)} className={`absolute ${isDark == 0 ? "hidden": ""} `}>

@@ -6,7 +6,7 @@ function App() {
 
   return (
 
-    <div className="App flex justify-center items-center w-screen h-screen">
+    <div className="App flex justify-center items-center w-full h-screen">
       <NoteApp/>
     </div>
   )
