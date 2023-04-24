@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, set, push, onValue, remove } from "firebase/database";
 // Create the context
 export const NoteContext = createContext();
 
@@ -36,15 +36,30 @@ export const NoteProvider =({children}) =>{
   const [tags, setTags] = useState([])
   const [selectedOption, setSelectedOption] = useState('home');
   const [NotesData, setNotesData] = useState([])
-  
+  const [NotesId, setNotesId] = useState([])
+
   useEffect(() =>{
     onValue(notesInDatabase, (snapshot) => {
-      const NotesData = snapshot.val();
-      setNotesData(NotesData ? Object.entries(NotesData) : []);
-      console.log(NotesData);   
+      let NotesData = snapshot.val();
+      if(NotesData){
+        let NotesId = Object.entries(NotesData).map(([id, data]) => id);
+        setNotesData(NotesData ? Object.entries(NotesData) : []);
+        setNotesId(NotesId ? NotesId : []);
+        console.log(NotesId);   
+      }
+      else{
+        setNotesData([]);
+      }
+
     })
   },[])
 
+
+
+  const deletNote = (notesId) => {
+    let noteDel = ref(database, `Notes/${notesId}`)
+    remove(noteDel);
+  }
 
 
   const handleUpload = () =>{
@@ -85,6 +100,7 @@ export const NoteProvider =({children}) =>{
     app,
     database,
     NotesData,
+    deletNote,
 
   }
 

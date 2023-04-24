@@ -92,20 +92,6 @@ function Notes() {
                         <button onClick={handleAddTag} className='flex justify-end w-full h-3 font-extrabold -mt-2' type="button">+</button>
                     </div>
                 </div>
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-6 h-6 -mt-16 text-gray-400 hover:text-gray-500 cursor-pointer"
-                >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                />
-                </svg>
             </div>
             <textarea
                 className={`resize-none ${colorToBgColor[color]} ${isSaved ? "bg-inherit border-0 shadow-none" : "bg-white"} focus:outline-none w-full h-24 border-2 border-gray-200 rounded-lg p-2 pt-4 font-serif font-normal  bg-white shadow-sm`}
@@ -116,21 +102,6 @@ function Notes() {
             ></textarea>
             <div className="flex items-center justify-between ">
                 <span className="text-xs text-gray-500">Last saved 2 hours ago</span>
-                <div className="flex items-center cursor-pointer transform hover:scale-110 transition-all duration-300" onClick={() => handleStar()}>
-                    <svg
-                        className={`w-6 h-6 mr-1 text-yellow-400 `}
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                    >
-                        <path
-                        fillRule="evenodd"
-                        d="M10 14.583l3.375 2.167-.875-3.812L16 8.75l-3.917-.334L10 5.417 7.917 8.416 4 8.75l3.125 2.188-.875 3.813L10 14.583zM10 18.333l-2.938 1.875L10 15.834l2.938 1.374L10 18.333z"
-                        clipRule="evenodd"
-                        />
-                    </svg>
-                    
-                </div>
                 <div onClick={handleUpload} className="h-5 w-5 text-2xl font-bold cursor-pointer">+</div>
             </div>
         </div>

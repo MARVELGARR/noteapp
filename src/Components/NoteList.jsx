@@ -24,8 +24,15 @@ function NoteList() {
    const {handleColorChange} = useContext(NoteContext); 
    const {notesInDatabase} = useContext(NoteContext);
    const {NotesData} = useContext(NoteContext);
+   const {deletNote} = useContext(NoteContext);
+   const {NotesId} = useContext(NoteContext);
+    
+    const [liked, setIsLiked] = useState(false);
+    
+    const handleLiked = () =>{
 
-
+    }
+    
 
     return (
         <div className=" notes w-full">
@@ -40,6 +47,7 @@ function NoteList() {
                                 </div>
                             </div>
                             <svg
+                            onClick={()=>deletNote(data[0])}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -56,7 +64,7 @@ function NoteList() {
                             <span className="text-xs font-semibold text-gray-500">{data[1].Priority}</span>
                             <div className="flex items-center cursor-pointer transform hover:scale-110 transition-all duration-300">
                             <svg
-                                className="w-6 h-6 mr-1 text-yellow-400"
+                                className="w-6 h-6 mr-1 "
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
