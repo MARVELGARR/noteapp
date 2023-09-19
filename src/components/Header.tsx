@@ -9,7 +9,7 @@ import { v4 as uuid } from "uuid"
 function Header() {
   return (
     <>
-        <div className={` md:hidden flex justify-between py-8 ${styles.padding} w-screen cover h-32 image-mobile-light image-mobile-dark  `}>
+        <div className={` md:hidden flex justify-between py-8 ${styles.padding} w-screen cover h-52 image-mobile-light image-mobile-dark  `}>
             <motion.h1
                 variants={staggerContainer}
                 initial="hidden"

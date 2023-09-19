@@ -4,14 +4,19 @@
 }
 
 .image-mobile-light{
-  background-image: url(/public/images/bg-mobile-light.jpg)
-}
-.image-desktop-light{
-  background-image: url(/public/images/bg-desktop-light.jpg)
+  background-image: url(/public/images/bg-mobile-light.jpg);
+
 }
 .image-mobile-dark{
-  background-image: url(/public/images/bg-mobile-dark.jpg)
+  background-image: url(/public/images/bg-mobile-dark.jpg);
+
 }
+.image-desktop-light{
+  background-image: url(/public/images/bg-desktop-light.jpg);
+
+}
+
 .image-desktop-dark{
-  background-image: url(/public/images/bg-desktop-dark.jpg)
+  background-image: url(/public/images/bg-desktop-dark.jpg);
+
 }

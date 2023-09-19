@@ -14,12 +14,17 @@ export default {
           unactive: 'var(--non-active-text)',          
         }
       },
+      colors: {        
+        check1: 'var(--check1-bg)',
+        check2: 'var(--check2-bg)',   
+      },
       backgroundColor: {
         skin:{
-          check: 'var(check-bg)',
-          background: 'var(--background)'
+          background: 'var(--background)',
+          cancelled : 'var(--cancelled-text-muted)',
         }
-      }
+      },
+
     },
   },
   plugins: [],
