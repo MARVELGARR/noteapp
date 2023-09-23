@@ -117,7 +117,7 @@ function Todo() {
     e.preventDefault();
   };
 
-  const handleDrop = (e, newIndex) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, newIndex: number) => {
     e.preventDefault();
     const oldIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
     const updatedItems = [...notes];
