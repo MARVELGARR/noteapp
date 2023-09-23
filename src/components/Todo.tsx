@@ -5,7 +5,7 @@ import { styles } from "../utils/styles";
 import { staggerContainer } from "../utils/motion";
 import { motion } from "framer-motion";
 import { movingNotes } from "../utils/motion";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import type { RootState } from "../redux/store";
 
 

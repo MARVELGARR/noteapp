@@ -6,13 +6,11 @@ import { motion } from 'framer-motion'
 import Switch from '../assets/switch'
 import { styles } from '../utils/styles'
 import { v4 as uuid } from "uuid"
-import { useSelector, useDispatch } from 'react-redux'
-import type { RootState } from '../redux/store'
+
 
 
 function Header() {
 
-    const answer = useSelector((state: RootState) => state.theme.value)
 
   return (
     <>

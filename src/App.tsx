@@ -1,7 +1,7 @@
 import Header from './components/Header'
 import Todo from './components/Todo'
 import './App.css'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import type { RootState } from './redux/store'
 
 function App() {
