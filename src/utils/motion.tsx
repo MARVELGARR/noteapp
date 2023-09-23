@@ -1,4 +1,3 @@
-import { spring } from "framer-motion"
 
 type movingH1 = {
     hidden :{

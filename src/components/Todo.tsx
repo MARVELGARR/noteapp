@@ -108,7 +108,7 @@ function Todo() {
     setActive(mode)
   }
 
-  const handleDragStart = (e: MouseEvent | TouchEvent | PointerEvent, index: number) => {
+  const handleDragStart = (e, index: number) => {
     e.dataTransfer.setData('text/plain', index.toString());
   };
 

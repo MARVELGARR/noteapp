@@ -1,4 +1,4 @@
-import React from 'react'
+
 import "../App.css"
 import { movingH1 } from '../utils/motion'
 import { staggerContainer } from '../utils/motion'
