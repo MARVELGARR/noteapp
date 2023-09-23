@@ -112,7 +112,7 @@ function Todo() {
     e.dataTransfer.setData('text/plain', index.toString());
   };
 
-  const handleDragOver = (e: { preventDefault: () => void; }) => {
+  const handleDragOver = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
 
