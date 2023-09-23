@@ -1,19 +1,20 @@
 import Header from './components/Header'
-import Body from './components/Body'
 import Todo from './components/Todo'
 import './App.css'
-
+import { useSelector, useDispatch } from 'react-redux'
+import type { RootState } from './redux/store'
 
 function App() {
+
+  const answer = useSelector((state: RootState) => state.theme.value)
 
 
   return (
     <>
-      <div className="relative bg-gray-200 h-screen">
+      <div className={` ${answer ? "" : "dark-theme" } relative bg-skin-background h-screen`}>
         <Header/>
         <div className="absolute top-20 flex flex-col gap-3">
           <Todo/>
-          <Body/>
         </div>
       </div>
     </>

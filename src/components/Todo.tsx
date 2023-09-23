@@ -2,7 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuid } from 'uuid'
 import { styles } from "../utils/styles";
+import { staggerContainer } from "../utils/motion";
+import { motion } from "framer-motion";
+import { movingNotes } from "../utils/motion";
+import { useSelector, useDispatch } from 'react-redux'
+import type { RootState } from "../redux/store";
+
+
 function Todo() {
+
+  const answer = useSelector((state: RootState) => state.theme.value)
+
   type Todo = {
     title: string;
     complete: boolean;
@@ -15,6 +25,10 @@ function Todo() {
     id: "",
   });
   const [notes, setNotes] = useState<Todo[]>([])
+  const [completed, setCompleted] = useState<Todo[]>([])
+  const [active, setActive ] = useState("All")
+  const [draggedItemsForDiv, setDraggedItemsForDiv] = useState<Todo[]>([]);
+
 
   const createTodo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,12 +43,6 @@ function Todo() {
 
     setNotes([...notes , newTodo]);
     store([...notes , newTodo]);
-
-    setNewTodo({
-      title: "",
-      complete: false,
-      id: uuid(),
-    });
 
   };
 
@@ -54,17 +62,76 @@ function Todo() {
   useEffect(() => {
     // Retrieve data from localStorage when the component mounts
     const storedData = JSON.parse(localStorage.getItem("todo") || "[]");
-    setNotes(storedData);
+    if (storedData.length > 0) {
+      setNotes(storedData);
+    }  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const store =( data : Todo[])=>{
     localStorage.setItem("todo", JSON.stringify(data));
   }
+  useEffect(()=>{
+    store(notes);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[notes])
+  
+
+
+  const checking = (noteId: string) => {
+    setNotes((prevNotes) => {
+      return prevNotes.map((note) => {
+        if (note.id === noteId) {
+          // Toggle the completion state
+          return { ...note, complete: !note.complete };
+        }
+        return note;
+      });
+    });
+    store(notes)
+
+  };
+  
+  const clearings = () => {
+    const clearedNotes = notes.filter((note)=>{
+      return( note.complete === false)
+    })
+    setNotes(clearedNotes)
+  }
+
+  const completedNotes = (mode) =>{
+    const completedNotes = notes.filter((note)=>{
+      return( note.complete === true)
+    })
+    setCompleted(completedNotes)
+    setActive(mode)
+  }
+  const all = (mode) =>{
+    setActive(mode)
+  }
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  const handleDragOver = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e, newIndex) => {
+    e.preventDefault();
+    const oldIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+    const updatedItems = [...notes];
+    const [movedItem] = updatedItems.splice(oldIndex, 1);
+    updatedItems.splice(newIndex, 0, movedItem);
+    setNotes(updatedItems);
+  };
+  
+  
 
   return (
-    <div className={` ${styles.padding} w-screen text-skin-main`}>
+    <div className={` ${ answer ? "" : "dark-theme" } text-skin ${styles.padding} ${styles.padding2} md:pt-5 w-screen text-skin-main`}>
       <form onSubmit={createTodo} className="rounded-md h-10 relative ">
-        <div className=" border-[1px] rounded-full w-5 h-5 top-[10px] left-4 border-gray-600/80 absolute bottom-0 z-10"></div>
+        
         <input
           type="text"
           onKeyDown={handleEnter}
@@ -73,42 +140,110 @@ function Todo() {
             setNewTodo({ ...newTodo, title: e.target.value })
           }
           value={newTodo.title}
-          className=" rounded-md shadow-md absolute bg-skin-background inset-0 h-10 w-full"
+          className=" rounded-md shadow-md absolute bg-skin-background2 inset-0 h-10 w-full"
         ></input>
       </form>
-      <div className=" w-full mt-5 flex flex-col rounded-md gap-3 bg-skin-background">
-        {notes.map((note)=>{
-          return(
-            <div key={note.id} className="flex-col shadow-md py-3 px-3 border-b-[2px] border-gray-200 ">
 
-              <div  className="flex  w-full justify-between items-center ">
-                <div className="flex gap-5">
-                  <div className=" w-5 h-5 rounded-full flex items-center justify-center bg-gradient-to-r from-check1 to-check2  ">
-                    <img
-                      src="/svg/icon-check.svg"
-                      alt="check"
-                      className="w-3 h-3 bg-check "
-                    />
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className=" w-full mt-5 flex flex-col rounded-md gap-3 bg-skin-background2"
+          >
+          { active == 'All' ? (<div>        
+            {notes.map((note, index)=>{
+              return(
+
+                  <motion.div
+                    key={note.id}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, index)}
+                    onDragOver={handleDragOver}
+                    onDrop={(e) => handleDrop(e, index)}
+                    variants={movingNotes} 
+                    className="flex-col py-3 px-3 border-b-[2px] border-gray-200 "
+                    >
+                    <div  className="flex  w-full justify-between items-center ">
+                      <div className="flex items-center gap-5">
+                        <div className="relative w-5 flex items-center h-5">
+
+                          <div className={` w-full h-full rounded-full flex items-center justify-center bg-gradient-to-r ${ note.complete? "from-check1 to-check2" : "" }  `}>
+                            { note.complete === true ? (<img
+                              src="/svg/icon-check.svg"
+                              alt="check"
+                              className="w-3 h-3 bg-check "
+                            />) : (<div className=" border-2 bg-skin-background2 rounded-full w-full h-5 border-gray-600/80"></div>)}
+                          </div>
+                          <input onChange={()=>checking(note.id)} type="checkbox" checked={note.complete} className="absolute opacity-0 inset-0"/>
+                        </div>
+                        <div className={` ${note.complete? " line-through opacity-20" : ""} text-lg`}>{note.title}</div>
+                      </div>
+                      <div onClick={()=>deleteNote(note.id)} className="cursor-pointer">
+                        <img
+                          src="/svg/icon-cross.svg"
+                          alt="cross"
+                          className="w-5 h-5 bg-skin-cancelled"
+                        />
+                      </div>
+                    </div>
+                    
+                  </motion.div>)}
+
+              )
+            }
+          </div>) : active == "Completed" ? (
+          <div>
+            {completed.map((note)=>{
+              return(
+                <motion.div
+                  
+                  draggable={true}
+                  variants={movingNotes} 
+                  key={note.id} className="flex-col py-3 px-3 border-b-[2px] border-gray-200 "
+                  >
+                  <div  className="flex  w-full justify-between items-center ">
+                    <div className="flex items-center gap-5">
+                      <div className="relative w-5 flex items-center h-5">
+
+                        <div className={` w-full h-full rounded-full flex items-center justify-center bg-gradient-to-r ${ note.complete? "from-check1 to-check2" : "" }  `}>
+                          { note.complete === true ? (<img
+                            src="/svg/icon-check.svg"
+                            alt="check"
+                            className="w-3 h-3 bg-check "
+                          />) : (<div className=" border-2 bg-skin-background2 rounded-full w-full h-5 border-gray-600/80"></div>)}
+                        </div>
+                        <input onChange={()=>checking(note.id)} type="checkbox" checked={note.complete} className="absolute opacity-0 inset-0"/>
+                      </div>
+                      <div className={` ${note.complete? " line-through opacity-20" : ""} text-lg`}>{note.title}</div>
+                    </div>
+                    <div onClick={()=>deleteNote(note.id)} className="cursor-pointer">
+                      <img
+                        src="/svg/icon-cross.svg"
+                        alt="cross"
+                        className="w-5 h-5 bg-skin-cancelled"
+                      />
+                    </div>
                   </div>
-                  <div className=" text-lg">{note.title}</div>
-                </div>
-                <div onClick={()=>deleteNote(note.id)} className="">
-                  <img
-                    src="/svg/icon-cross.svg"
-                    alt="cross"
-                    className="w-5 h-5 bg-skin-cancelled"
-                  />
-                </div>
-              </div>
-              
-            </div>
-          )
-        })}
+                  
+                </motion.div>
+              )
+            })}
+          </div>) : <div className=""></div>}
+
+        </motion.div>
+
+        
+      <div className="flex justify-between bg-skin-background2 py-4 px-3">
+        <div className="">{` ${notes.length} items left`}</div>
+        <div onClick={clearings} className="cursor-pointer">clear completed</div>
       </div>
-      <div className="flex justify-between">
-        <div className="">{` items left`}</div>
-        <div className="">clear completed</div>
+      <div className={` ${styles.padding} mt-7 flex items-center h-10  justify-center gap-6 shadow-md bg-skin-background2`}>
+        <div onClick={()=>all("All")} className={`${ active == "All" ? "text-cyan-600 font-bold" : " "} cursor-pointer`}>All</div>
+        <div  className={`cursor-pointer `}>Active</div>
+        <div onClick={()=>completedNotes("Completed")} className={`${ active == "Completed" ? "text-cyan-600 font-bold" : ""} cursor-pointer`}>Completed</div>
       </div>
+    
     </div>
   );
 }

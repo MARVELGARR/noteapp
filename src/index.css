@@ -8,6 +8,7 @@
         --check1-bg: hsl(192, 100%, 67%);
         --check2-bg:hsl(280, 87%, 65%);
         --background: hsl(0, 0%, 98%);
+        --background2: hsl(0, 0%, 98%);
         --very-light-grayish-blue: hsl(236, 33%, 92%);
         --cancelled-text-muted: hsl(233, 11%, 84%);
         --non-active-text: hsl(236, 9%, 61%);
@@ -18,9 +19,10 @@
         --color-primary: hsl(220, 98%, 61%);
         --bg-check: linear-gradient (hsl(192, 100%, 67%) to hsl(280, 87%, 65%));
         --background: hsl(235, 24%, 19%);
+        --background2: hsl(235, 15%, 31%);
         --very-light-grayish-blue: hsl(234, 39%, 85%);
-        --cancelled-text-muted: hsl(234, 11%, 52%);
+        --cancelled-text-muted: hsl(235, 7%, 68%);
         --non-active-text: hsl(233, 14%, 35%);
-        --main-text-base: hsl(237, 14%, 26%);
+        --main-text-base: hsl(236, 18%, 83%);
     }
 }

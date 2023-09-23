@@ -21,6 +21,7 @@ export default {
       backgroundColor: {
         skin:{
           background: 'var(--background)',
+          background2: 'var(--background2)',
           cancelled : 'var(--cancelled-text-muted)',
         }
       },

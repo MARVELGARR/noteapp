@@ -1,4 +1,4 @@
-
+import { spring } from "framer-motion"
 
 type movingH1 = {
     hidden :{
@@ -33,7 +33,7 @@ export const movingH1: movingH1 = {
 }
 
 type staggerContainer = {
-    hidden?: {
+    hidden: {
         opacity?: number,
         scale?: number,
     },
@@ -41,6 +41,7 @@ type staggerContainer = {
         transition:{
             staggerChildren: number
             delay?: number,
+            duration?: number
         }
     }
 }
@@ -49,7 +50,22 @@ export const staggerContainer: staggerContainer = {
     show: {
         transition: {
             staggerChildren: 0.2,
-            
         }
+    }
+}
+
+export const movingNotes  = {
+    hidden: {
+        y: 100,
+        opacity: 0
+    },
+    show: {
+        y:0,
+        opacity:1
+    },
+    transition: {
+        type: "spring",
+        stiffness:800,
+        damping: 10,
     }
 }
