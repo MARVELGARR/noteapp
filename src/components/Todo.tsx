@@ -27,7 +27,6 @@ function Todo() {
   const [notes, setNotes] = useState<Todo[]>([])
   const [completed, setCompleted] = useState<Todo[]>([])
   const [active, setActive ] = useState("All")
-  const [draggedItemsForDiv, setDraggedItemsForDiv] = useState<Todo[]>([]);
 
 
   const createTodo = (e: React.FormEvent) => {
@@ -98,18 +97,18 @@ function Todo() {
     setNotes(clearedNotes)
   }
 
-  const completedNotes = (mode) =>{
+  const completedNotes = (mode: React.SetStateAction<string>) =>{
     const completedNotes = notes.filter((note)=>{
       return( note.complete === true)
     })
     setCompleted(completedNotes)
     setActive(mode)
   }
-  const all = (mode) =>{
+  const all = (mode: React.SetStateAction<string>) =>{
     setActive(mode)
   }
 
-  const handleDragStart = (e, index) => {
+  const handleDragStart = (e: MouseEvent | TouchEvent | PointerEvent, index: number) => {
     e.dataTransfer.setData('text/plain', index.toString());
   };
 
