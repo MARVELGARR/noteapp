@@ -108,9 +108,16 @@ function Todo() {
     setActive(mode)
   }
 
-  const handleDragStart = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
-    e.dataTransfer.setData('text/plain', index.toString());
+  const handleDragStart = (e: MouseEvent | TouchEvent | PointerEvent, index: number) => {
+    // Assert the event type to DragEvent
+    const dragEvent = e as DragEvent;
+  
+    // Check if dataTransfer is supported (not available in all environments)
+    if (dragEvent.dataTransfer) {
+      dragEvent.dataTransfer.setData('text/plain', index.toString());
+    }
   };
+  
 
   const handleDragOver = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
